@@ -1,15 +1,20 @@
 public class Kiosk_TUI {
-    public static void main(String[] args) throws Exception {
-        int a = 9;
-        boolean b = true;
-        char c = 'd';
-        double d = 3.14;
-        String e = "조용히 좀 해라";
 
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
-        System.out.println(d);
-        System.out.println(e);
+    String helloMsg = "Hello World!";
+    int cash = 10000000;
+
+    public static void main(String[] args) throws Exception {
+        Kiosk_TUI myKiosk = new Kiosk_TUI();
+
+        myKiosk.helloMsg = "Hi";
+        myKiosk.cash = 1000;
+
+        System.out.println(myKiosk.helloMsg);
+        System.out.println(myKiosk.cash);
+        System.out.println(myKiosk.pay());
+    }
+
+    int pay() {
+        return 500;
     }
 }
