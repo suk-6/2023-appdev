@@ -7,4 +7,9 @@ class Coffee extends Beverage {
         this.decaffeine = decaffeine;
         this.origin = origin;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + (decaffeine ? " 디카페인" : "") + " (" + origin + ")";
+    }
 }

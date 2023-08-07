@@ -6,4 +6,9 @@ class Beverage extends Menu {
         this.name = super.name + "(음료)";
         this.ice = ice;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + (ice ? "- ICE" : "- HOT");
+    }
 }
