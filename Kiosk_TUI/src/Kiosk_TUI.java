@@ -8,7 +8,7 @@ public class Kiosk_TUI {
 
     public static void main(String[] args) {
         Kiosk_TUI myKiosk = new Kiosk_TUI();
-        myKiosk.menus[0] = new Menu("아아");
+        myKiosk.menus[0] = new Menu("아아", 3000);
         myKiosk.menus[1] = new Menu("뜨아", 3300);
         myKiosk.menus[2] = new Beverage("레몬에이드", 4000, true);
         myKiosk.menus[3] = new Coffee("카페모카", 4500, false, false, "콜롬비아");
@@ -19,22 +19,40 @@ public class Kiosk_TUI {
         System.out.println("\n원하는 메뉴를 입력해주세요(1~" + myKiosk.menus.length + "): ");
         Scanner myScanner = new Scanner(System.in);
         String input = myScanner.nextLine();
-        myScanner.close();
+
+        int selectMenuPrice = 0;
 
         try {
             int menuNum = Integer.parseInt(input);
             if (menuNum < 1 || menuNum > myKiosk.menus.length) {
                 System.out.println("잘못된 입력입니다.");
+                myScanner.close();
                 return;
             }
-            System.out.println("선택하신 메뉴는 [" + myKiosk.menus[menuNum - 1] + "] 입니다.");
+
+            selectMenuPrice = myKiosk.menus[menuNum - 1].price;
+            System.out.println("선택하신 메뉴는 [" + myKiosk.menus[menuNum - 1] + "] 입니다.\n");
+            System.out.println("결제를 진행합니다.");
+            System.out.println("현금 입력: ");
+            input = myScanner.nextLine();
+            myScanner.close();
+
+            int cash = Integer.parseInt(input);
+
+            myKiosk.pay(selectMenuPrice, cash);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    int pay() {
-        return 500;
+    void pay(int price, int cash) {
+        int change = cash - price;
+        if (change < 0) {
+            System.out.println("잔액이 부족합니다.");
+        } else {
+            System.out.println("결제가 완료되었습니다. 거스름돈은 " + change + "원 입니다.");
+            cash -= price;
+        }
     }
 
     void showMenus() {
