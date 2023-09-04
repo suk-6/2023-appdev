@@ -5,6 +5,7 @@ public class Kiosk_TUI {
     String helloMsg = "Hello World!";
     int cash = 1000000;
     Menu[] menus = new Menu[5];
+    static Menu selectedMenu = null;
 
     public static void main(String[] args) {
         while (true) {
@@ -19,44 +20,48 @@ public class Kiosk_TUI {
 
             System.out.println("\n원하는 메뉴를 입력해주세요(1~" + myKiosk.menus.length + "): ");
             Scanner myScanner = new Scanner(System.in);
-            String input = myScanner.nextLine();
-
-            int selectMenuPrice = 0;
 
             try {
+                String input = myScanner.nextLine();
                 int menuNum = Integer.parseInt(input);
+
                 if (menuNum < 1 || menuNum > myKiosk.menus.length) {
                     throw new Exception("메뉴 번호가 잘못되었습니다.");
                 }
 
-                selectMenuPrice = myKiosk.menus[menuNum - 1].price;
-                System.out.println("선택하신 메뉴는 [" + myKiosk.menus[menuNum - 1] + "] 입니다.\n");
+                selectedMenu = myKiosk.menus[menuNum - 1];
+                System.out.println("\n선택하신 메뉴는 [" + selectedMenu.name + "] 입니다.");
+                System.out.println("결제하실 금액은 [" + selectedMenu.price + "] 입니다.\n");
                 System.out.println("결제를 진행합니다.");
                 System.out.println("현금 입력: ");
                 input = myScanner.nextLine();
 
                 int cash = Integer.parseInt(input);
+                int change = myKiosk.pay(selectedMenu.price, cash);
 
-                myKiosk.pay(selectMenuPrice, cash);
+                if (change == -1) {
+                    throw new Exception("결제 금액이 부족합니다.");
+                } else {
+                    System.out.println("\n결제가 완료되었습니다.");
+                    System.out.println("거스름돈은 [" + change + "] 입니다.\n");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    void pay(int price, int cash) {
+    int pay(int price, int cash) {
         int change = cash - price;
         if (change < 0) {
-            System.out.println("잔액이 부족합니다.");
-        } else {
-            System.out.println("결제가 완료되었습니다. 거스름돈은 " + change + "원 입니다.");
-            cash -= price;
+            return -1;
         }
+        return change;
     }
 
     void showMenus() {
         for (int i = 0; i < menus.length; i++) {
-            System.out.println(menus[i]);
+            System.out.println((i + 1) + ". " + menus[i]);
         }
     }
 }
