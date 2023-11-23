@@ -1,16 +1,20 @@
 package kr.hs.data.kiosk;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu implements Serializable {
     String name;
     int price;
+    int thumbnail = -1;
 
     Menu(String name) {
         this.name = name;
     }
 
-    Menu(String name, int price) {
+    Menu(String name, int price, int thumbnail) {
         this.name = name;
         this.price = price;
+        this.thumbnail = thumbnail;
     }
 
     @Override
